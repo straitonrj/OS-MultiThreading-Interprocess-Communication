@@ -1,0 +1,14 @@
+/home/rj-straiton/Desktop/OS-ProjectThreading/bin/Debug/net8.0/OS-ProjectThreading
+/home/rj-straiton/Desktop/OS-ProjectThreading/bin/Debug/net8.0/OS-ProjectThreading.deps.json
+/home/rj-straiton/Desktop/OS-ProjectThreading/bin/Debug/net8.0/OS-ProjectThreading.runtimeconfig.json
+/home/rj-straiton/Desktop/OS-ProjectThreading/bin/Debug/net8.0/OS-ProjectThreading.dll
+/home/rj-straiton/Desktop/OS-ProjectThreading/bin/Debug/net8.0/OS-ProjectThreading.pdb
+/home/rj-straiton/Desktop/OS-ProjectThreading/obj/Debug/net8.0/OS-ProjectThreading.GeneratedMSBuildEditorConfig.editorconfig
+/home/rj-straiton/Desktop/OS-ProjectThreading/obj/Debug/net8.0/OS-ProjectThreading.AssemblyInfoInputs.cache
+/home/rj-straiton/Desktop/OS-ProjectThreading/obj/Debug/net8.0/OS-ProjectThreading.AssemblyInfo.cs
+/home/rj-straiton/Desktop/OS-ProjectThreading/obj/Debug/net8.0/OS-ProjectThreading.csproj.CoreCompileInputs.cache
+/home/rj-straiton/Desktop/OS-ProjectThreading/obj/Debug/net8.0/OS-ProjectThreading.dll
+/home/rj-straiton/Desktop/OS-ProjectThreading/obj/Debug/net8.0/refint/OS-ProjectThreading.dll
+/home/rj-straiton/Desktop/OS-ProjectThreading/obj/Debug/net8.0/OS-ProjectThreading.pdb
+/home/rj-straiton/Desktop/OS-ProjectThreading/obj/Debug/net8.0/OS-ProjectThreading.genruntimeconfig.cache
+/home/rj-straiton/Desktop/OS-ProjectThreading/obj/Debug/net8.0/ref/OS-ProjectThreading.dll
