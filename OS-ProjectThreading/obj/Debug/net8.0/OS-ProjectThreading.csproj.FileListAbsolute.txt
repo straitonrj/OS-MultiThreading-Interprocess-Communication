@@ -12,3 +12,4 @@
 /home/rj-straiton/Desktop/OS-ProjectThreading/obj/Debug/net8.0/OS-ProjectThreading.pdb
 /home/rj-straiton/Desktop/OS-ProjectThreading/obj/Debug/net8.0/OS-ProjectThreading.genruntimeconfig.cache
 /home/rj-straiton/Desktop/OS-ProjectThreading/obj/Debug/net8.0/ref/OS-ProjectThreading.dll
+/home/rj-straiton/Desktop/OS-ProjectThreading/obj/Debug/net8.0/OS-ProjectThreading.sourcelink.json

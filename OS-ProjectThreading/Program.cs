@@ -82,7 +82,7 @@ void threadSix(){
         checkingTwo.ReleaseMutex();
     }
 }
-//Threads seven and eight showcase a deadlock using locks
+//Threads seven and eight showcase a deadlock using c# locks
 void threadSeven(){
     lock (accountOne){
         accountOne.WithdrawSavings(1000);
@@ -146,7 +146,73 @@ void threadTen(){
             Monitor.Exit(accountOne);
         }    
 }
-
+//Threads 11 and 12 will enter deadlock, which will be resolved by timeout mechanisms
+void threadEleven(){
+    //accessing savings one
+    if(!soInUse){
+        soInUse = true;
+        Console.WriteLine("Thread 11 has acquired account one savings");
+        accountOne.DepsoitSavings(1234.56f);
+        Console.WriteLine("Deposited $1234.56 into account one savings\nAccount 1 savings: $"+accountOne.getSavingsAmount()+"\n");
+        //not relenquishing control before requesting another resource to cause deadlock
+        for(int i=0; i<2; i++){
+            if(!stInUse){
+                stInUse = true;
+                Console.WriteLine("Thread 11 has acquired account two savings");
+                accountTwo.WithdrawSavings(1234.56f);
+                Console.WriteLine("Withdrew $1234.56 from account 2 savings\nAccount 2 savings: $"+accountTwo.getSavingsAmount()+"\n");
+                //relenquish control
+                stInUse = false;
+                soInUse = false;
+            }
+            else{
+                //sleep  and check one more time before relenquishing control of first resource
+                if(i==0){
+                    Console.WriteLine("Thread 11 could not access account 2 savings, sleeping and trying again\n");
+                    Thread.Sleep(10000);
+                }
+                else{
+                    Console.WriteLine("Thread 12 cannot access account 2 savings, closing thread\n");
+                } 
+            }
+        }
+        //relenquish control and end thread
+        soInUse = false;
+    }  
+}
+void threadTwelve(){
+    //accessing savings one
+    if(!stInUse){
+        stInUse = true;
+        Console.WriteLine("Thread 12 has acquired account two savings");
+        accountOne.DepsoitSavings(1.01f);
+        Console.WriteLine("Deposited $1.01 into account two savings\nAccount 2 savings: $"+accountTwo.getSavingsAmount()+"\n");
+        //not relenquishing control before requesting another resource to cause deadlock
+        for(int i=0; i<2; i++){
+            if(!soInUse){
+                soInUse = true;
+                Console.WriteLine("Thread 12 has acquired account one savings");
+                accountTwo.WithdrawSavings(1.01f);
+                Console.WriteLine("Withdrew $1.01 from account 1 savings\nAccount 1 savings: $"+accountOne.getSavingsAmount()+"\n");
+                //relenquish control
+                stInUse = false;
+                soInUse = false;
+            }
+            else{
+                //sleep for ten seconds and check one more time before relenquishing control of first resource
+                if(i==0){
+                    Console.WriteLine("Thread 12 could not access account one savings, sleeping and trying again\n");
+                    Thread.Sleep(10000);
+                }
+                else{
+                    Console.WriteLine("Thread 12 cannot access account 1 savings, closing thread\n");
+                }       
+            }
+        }
+        //relenquish control and end thread
+        stInUse = false;
+    }  
+}
 
 
 
@@ -165,6 +231,11 @@ System.Threading.Thread t8 = new System.Threading.Thread(new ThreadStart(threadE
 System.Threading.Thread t9 = new System.Threading.Thread(new ThreadStart(threadNine));
 System.Threading.Thread t10 = new System.Threading.Thread(new ThreadStart(threadTen));
 
+//timeout mechanism threads (same as t7 and t8)
+System.Threading.Thread t11 = new System.Threading.Thread(new ThreadStart(threadEleven));
+System.Threading.Thread t12 = new System.Threading.Thread(new ThreadStart(threadTwelve));
+
+
 
 //Starting threads, threads end after finishing their respective methods 
 /*t1.Start();
@@ -180,7 +251,10 @@ t8.Start();
 t9.Start();
 t10.Start();*/
 
-/*Queue to order threads preventing deadlock?
+t11.Start();
+t12.Start();
+
+/*Implement priority queues for threads? 
 Queue<Thread> threadQueue = new Queue<Thread>(15);
 threadQueue.Enqueue(t1);
 threadQueue.Enqueue(t2);
