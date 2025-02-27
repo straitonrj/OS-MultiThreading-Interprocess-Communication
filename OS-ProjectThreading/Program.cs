@@ -2,8 +2,8 @@
 using System.Numerics;
 
 //resources for threads to share
-BankAccount accountOne = new(1, 250.75f, 1500.65f);
-BankAccount accountTwo = new(2, 1250.75f, 4700.65f);
+BankAccount accountOne = new(250.75f, 1500.65f);
+BankAccount accountTwo = new(1250.75f, 4700.65f);
 
 //Mutex implemtations
 Mutex savingsOne = new Mutex(false, "Savings One Mutex");
@@ -17,7 +17,7 @@ bool stInUse = false;
 bool coInUse = false;
 bool ctInUse = false;
 
-//Methods for the threads to run, some will read or write to the same bank account and its info simultaenously and cause deadlock
+//Methods for the threads to run, some will read or write to the same bank account or try to access both accounts 
 //Threads 1 through 6 will utilize mutexes
 void threadOne(){
     try{
@@ -172,7 +172,7 @@ void threadEleven(){
                     Thread.Sleep(10000);
                 }
                 else{
-                    Console.WriteLine("Thread 12 cannot access account 2 savings, closing thread\n");
+                    Console.WriteLine("Thread 11 cannot access account 2 savings, closing thread\n");
                 } 
             }
         }
@@ -214,93 +214,75 @@ void threadTwelve(){
     }  
 }
 
-
-
-
 //Creating the threads
-System.Threading.Thread t1 = new System.Threading.Thread(new ThreadStart(threadOne));
-System.Threading.Thread t2 = new System.Threading.Thread(new ThreadStart(threadTwo));
-System.Threading.Thread t3 = new System.Threading.Thread(new ThreadStart(threadThree));
-System.Threading.Thread t4 = new System.Threading.Thread(new ThreadStart(threadFour));
-System.Threading.Thread t5 = new System.Threading.Thread(new ThreadStart(threadFive));
-System.Threading.Thread t6 = new System.Threading.Thread(new ThreadStart(threadSix));
+Thread t1 = new System.Threading.Thread(new ThreadStart(threadOne));
+Thread t2 = new System.Threading.Thread(new ThreadStart(threadTwo));
+Thread t3 = new System.Threading.Thread(new ThreadStart(threadThree));
+Thread t4 = new System.Threading.Thread(new ThreadStart(threadFour));
+Thread t5 = new System.Threading.Thread(new ThreadStart(threadFive));
+Thread t6 = new System.Threading.Thread(new ThreadStart(threadSix));
 //Deadlock threads
-System.Threading.Thread t7 = new System.Threading.Thread(new ThreadStart(threadSeven));
-System.Threading.Thread t8 = new System.Threading.Thread(new ThreadStart(threadEight));
+Thread t7 = new System.Threading.Thread(new ThreadStart(threadSeven));
+Thread t8 = new System.Threading.Thread(new ThreadStart(threadEight));
 //Preventing deadlock threads
-System.Threading.Thread t9 = new System.Threading.Thread(new ThreadStart(threadNine));
-System.Threading.Thread t10 = new System.Threading.Thread(new ThreadStart(threadTen));
-
+Thread t9 = new System.Threading.Thread(new ThreadStart(threadNine));
+Thread t10 = new System.Threading.Thread(new ThreadStart(threadTen));
 //timeout mechanism threads (same as t7 and t8)
-System.Threading.Thread t11 = new System.Threading.Thread(new ThreadStart(threadEleven));
-System.Threading.Thread t12 = new System.Threading.Thread(new ThreadStart(threadTwelve));
+Thread t11 = new System.Threading.Thread(new ThreadStart(threadEleven));
+Thread t12 = new System.Threading.Thread(new ThreadStart(threadTwelve));
 
 
 
 //Starting threads, threads end after finishing their respective methods 
-/*t1.Start();
+t1.Start();
 t2.Start();
 t3.Start();
 t4.Start();
 t5.Start();
 t6.Start();
-
 t7.Start();
 t8.Start();
-
 t9.Start();
-t10.Start();*/
-
+t10.Start();
 t11.Start();
 t12.Start();
 
-/*Implement priority queues for threads? 
-Queue<Thread> threadQueue = new Queue<Thread>(15);
-threadQueue.Enqueue(t1);
-threadQueue.Enqueue(t2);
-threadQueue.Enqueue(t3);
-threadQueue.Enqueue(t4);
-threadQueue.Enqueue(t5);
-threadQueue.Enqueue(t6);
-threadQueue.Enqueue(t7);
-threadQueue.Enqueue(t8);
-threadQueue.Enqueue(t9);
-threadQueue.Enqueue(t10);
-
-//this is stupid, defeats point of threading
-for(int i=0; i<10;i++){
-    System.Threading.Thread temp = threadQueue.Dequeue();
-    temp.Start();
-    Thread.Sleep(2000);
-}*/
+/*Implement priority queues for threads?*/
 
 //basic bank account class, nothing fancy since the project is about the threading
 class BankAccount{
+    static int NumOfAccounts =0;
     int AccountID;
     float CheckingAmount;
     float SavingsAmount;
 
-    public BankAccount(int ID, float Checking, float Savings){
-        AccountID = ID;
+    public BankAccount(float Checking, float Savings){
+        NumOfAccounts++;
+        AccountID = NumOfAccounts;
         CheckingAmount = Checking;
         SavingsAmount = Savings;
     }
 
-    public void WithdrawChecking(float amount){
+    public void WithdrawChecking(float amount){    
+        if(CheckingAmount<amount){
+            //Take the difference out of savings and charge an overdraft fee($5.00)
+            WithdrawSavings(amount-CheckingAmount + 5.00f);
+        }
         CheckingAmount = CheckingAmount - amount;
-        //return CheckingAmount;
     }
     public void WithdrawSavings(float amount){
-        SavingsAmount = SavingsAmount - amount;
-        //return SavingsAmount;
+        if(amount>=SavingsAmount){
+            SavingsAmount = SavingsAmount - amount;
+        }
     }
     public void DepositChecking(float amount){
         CheckingAmount = CheckingAmount + amount;
-        //return CheckingAmount;
     }
     public void DepsoitSavings(float amount){
         SavingsAmount = SavingsAmount + amount;
-        //return SavingsAmount;
+    }
+    void SavingsInterest(float APY){
+        SavingsAmount = SavingsAmount + (SavingsAmount * APY);
     }
     public float getCheckingAmount(){
         return CheckingAmount;
