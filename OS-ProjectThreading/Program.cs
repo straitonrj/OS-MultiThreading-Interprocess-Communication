@@ -222,8 +222,8 @@ Thread t4 = new System.Threading.Thread(new ThreadStart(threadFour));
 Thread t5 = new System.Threading.Thread(new ThreadStart(threadFive));
 Thread t6 = new System.Threading.Thread(new ThreadStart(threadSix));
 //Deadlock threads
-Thread t7 = new System.Threading.Thread(new ThreadStart(threadSeven));
-Thread t8 = new System.Threading.Thread(new ThreadStart(threadEight));
+/*Thread t7 = new System.Threading.Thread(new ThreadStart(threadSeven));
+Thread t8 = new System.Threading.Thread(new ThreadStart(threadEight));*/
 //Preventing deadlock threads
 Thread t9 = new System.Threading.Thread(new ThreadStart(threadNine));
 Thread t10 = new System.Threading.Thread(new ThreadStart(threadTen));
