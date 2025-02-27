@@ -82,7 +82,7 @@ void threadSix(){
         checkingTwo.ReleaseMutex();
     }
 }
-//Threads seven and eight showcase a deadlock using c# locks
+/*//Threads seven and eight showcase a deadlock using c# locks
 void threadSeven(){
     lock (accountOne){
         accountOne.WithdrawSavings(1000);
@@ -106,7 +106,7 @@ void threadEight(){
             Console.WriteLine("Thread 8 has acquired account one and deposited $234.56 to checking\nAccount 1 checking: $"+accountOne.getCheckingAmount()+"\n");
         }
     }
-}
+}*/
 //Threads nine and ten will show how to prevent the deadlock by releasing the resource before requesting another
 void threadNine(){
     Monitor.Enter(accountOne);
