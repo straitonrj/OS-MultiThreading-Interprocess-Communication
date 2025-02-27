@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OS-ProjectThreading")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5e11aa67e9b84bd48bce50ab2ab5f7889b48ea49")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1e567c528bcda5277a37f964f97cc6b5f06f46a9")]
 [assembly: System.Reflection.AssemblyProductAttribute("OS-ProjectThreading")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OS-ProjectThreading")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
