@@ -4,7 +4,13 @@ Welcome to the project repository for my Multi-Threaded Programming and IPC proj
 This project was developed in a virtual Ubuntu Linux environment and was coded in Visual Studio using C#. I implemented the requirements as a simple banking system with a savings balance, checking balance, and account ID. Thread information is collected and sent 
 to a separate program called PipeThread using pipes. This allows for tracking which threads accessed what resources and released those resources. 
 
-## Buidling and Running the Programs
+## Table of Contents
+- [Building and Running the Programs](#building-and-running-the-programs)
+- [Terminal Outputs](#terminal-outputs)
+- [Report](#report)
+- [Final Video Presentation](#final-video-presentation)
+
+## Building and Running the Programs
 To set up an Ubuntu virtual environment:
 - [Follow this tutorial video](https://youtu.be/t_-hLP1eI4k?si=UYdrz05c6M_aJFrk)
 
@@ -35,6 +41,7 @@ Threads 7 and 8 will cause a deadlock in the program as they are not releasing t
  ![PipeThread Image](./images/PipeThread.png)
 
  ## Report 
+ [CLick here to view the report for this project](./images/Multi_Threading_Programming_and_IPC.pdf)
 
  ## Final Video Presentation
 [Please watch the video presentation here](https://youtu.be/nRYYutUwSbg)  
