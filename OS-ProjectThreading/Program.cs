@@ -4,7 +4,9 @@ using System.IO.Pipes;
 
 //String for threads to write to, will be sent to another program by a pipe
 //This becomes yet another shared resource so a mutex will be necessary
-String ThreadInfo ="";
+string ThreadInfo ="";
+
+
 
 //resources for threads to share
 BankAccount accountOne = new(250.75f, 1500.65f);
@@ -32,7 +34,6 @@ void threadOne(){
         ThreadInfoMutex.WaitOne();
         accountOne.DepsoitSavings(400f);
         ThreadInfo += "Thread 1 has accessed account 1 savings\n";
-        //Console.WriteLine("Thread 1 has accessed Account one and deposited $400 to savings \nAccount One Savings: $"+accountOne.getSavingsAmount()+"\n");
     }
     finally{
         savingsOne.ReleaseMutex();
@@ -46,7 +47,6 @@ void threadTwo(){
         ThreadInfoMutex.WaitOne();
         accountTwo.DepsoitSavings(500.01f);
         ThreadInfo+="Thread 2 has accessed account 2 savings\n";
-        //Console.WriteLine("Thread 2 has accessed account two and deposited $500.01 \nAccount Two Savings: $"+accountTwo.getSavingsAmount()+"\n");
     }
     finally{
         savingsTwo.ReleaseMutex();
@@ -59,7 +59,6 @@ void threadThree(){
         savingsOne.WaitOne();
         ThreadInfoMutex.WaitOne();
         ThreadInfo+="Thread 3 has accessed account 1 savings\n";
-        Console.WriteLine("Thread 3 has accessed account one \nAccount One Savings: $"+accountOne.getSavingsAmount()+"\n");
     }
     finally{
         savingsOne.ReleaseMutex();
@@ -72,7 +71,6 @@ void threadFour(){
         savingsTwo.WaitOne();
         ThreadInfoMutex.WaitOne();
         ThreadInfo+="Thread 4 has accessed account 1 savings\n";
-        Console.WriteLine("Thread 4 has accessed account two\nAccount two savings: $"+accountTwo.getSavingsAmount()+"\nAccount two checking: $"+accountTwo.getCheckingAmount()+"\n");
     }
     finally{
         savingsTwo.ReleaseMutex();
@@ -86,7 +84,6 @@ void threadFive(){
         ThreadInfoMutex.WaitOne();
         accountOne.WithdrawChecking(275);
         ThreadInfo+="Thread 5 has accessed account 1 savings\n";
-        Console.WriteLine("Thread 5 has accessed account 1 and subtracted $275 from checking\nAccount one checking: $"+accountOne.getCheckingAmount()+"\n");
     }
     finally{
         savingsOne.ReleaseMutex();
@@ -105,7 +102,6 @@ void threadSix(){
         accountTwo.DepositChecking(500);
 
         ThreadInfo+="Thread 6 has accessed account 1 savings and account 2 checking\n";
-        Console.WriteLine("Thread 6 has accessed accounts 1 and 2 and transferred $500 from account 1 savings to account 2 checking\nAccount one savings: $"+accountOne.getSavingsAmount()+"\nAccount two checking: $"+accountTwo.getCheckingAmount()+"\n");
     }
     finally{
         savingsOne.ReleaseMutex();
@@ -155,7 +151,6 @@ void threadNine(){
         try{
             accountOne.WithdrawSavings(759f);
             ThreadInfo+="Thread 9 has locked account 1\n";
-            Console.WriteLine("Thread 9 has acquired account one and withdrew $759 from savings\nAccount 1 Savings: $"+accountOne.getSavingsAmount()+"\n");
         }
         finally{
             Monitor.Exit(accountOne);
@@ -166,7 +161,6 @@ void threadNine(){
         try{
             accountTwo.DepsoitSavings(759f);
             ThreadInfo+="Thread 9 has accessed account 2\n";
-            Console.WriteLine("Thread 9 has acquired account two and deposit $759 to savings\nAccount 2 Savings: $"+accountTwo.getSavingsAmount()+"\n");
         }
         finally{
             Monitor.Exit(accountTwo);
@@ -180,7 +174,6 @@ void threadTen(){
         try{
             accountTwo.WithdrawSavings(15.45f);
             ThreadInfo+="Thread 10 has accessed account 2\n";
-            Console.WriteLine("Thread 10 has acquired account two and withdrew $15.45 from savings\nAccount 2 savings: $"+accountTwo.getSavingsAmount()+"\n");
         }
         finally{
             Monitor.Exit(accountTwo);
@@ -190,7 +183,6 @@ void threadTen(){
         try{
             accountOne.DepsoitSavings(15.45f);
             ThreadInfo+="Thread 10 has accessed account 1\n";
-            Console.WriteLine("Thread 10 has acquired account one and deposited $15.45 to savings\nAccount 1 savings: $"+accountOne.getSavingsAmount()+"\n");
         
         }
         finally{
@@ -204,68 +196,56 @@ void threadEleven(){
     //accessing savings one
     if(!soInUse){
         soInUse = true;
-        ThreadInfoMutex.WaitOne();
-
         Console.WriteLine("Thread 11 has acquired account one savings");
-        ThreadInfo+="Thread 11 has acquired account 1 savings\nThread 11 is attempting to acquire account 2 savings\n";
         accountOne.DepsoitSavings(1234.56f);
         Console.WriteLine("Deposited $1234.56 into account one savings\nAccount 1 savings: $"+accountOne.getSavingsAmount()+"\n");
+        
         //not relenquishing control before requesting another resource to cause deadlock
         for(int i=0; i<2; i++){
             if(!stInUse){
                 stInUse = true;
-                ThreadInfo+="Thread 11 has acquired account 2 savings\n";
-                Console.WriteLine("Thread 11 has acquired account two savings");
                 accountTwo.WithdrawSavings(1234.56f);
+                Console.WriteLine("Thread 11 has acquired account two savings");
                 Console.WriteLine("Withdrew $1234.56 from account 2 savings\nAccount 2 savings: $"+accountTwo.getSavingsAmount()+"\n");
+                
                 //relenquish control
                 stInUse = false;
                 soInUse = false;
-                ThreadInfoMutex.ReleaseMutex();
             }
             else{
                 //sleep  and check one more time before relenquishing control of first resource
                 if(i==0){
-                    ThreadInfo+="Thread 11 could not acquire account 2 savings, sleeping and trying again\n";
                     Console.WriteLine("Thread 11 could not access account 2 savings, sleeping and trying again\n");
                     Thread.Sleep(10000);
                 }
                 else{
-                    ThreadInfo+="Thread 11 cannot acquire Account 2 savings, closing thread\n";
                     Console.WriteLine("Thread 11 cannot access account 2 savings, closing thread\n");
                 } 
             }
         }
         //relenquish control and end thread
         soInUse = false;
-        ThreadInfoMutex.ReleaseMutex();
     }  
 }
 void threadTwelve(){
     //accessing savings one
     if(!stInUse){
         stInUse = true;
-        ThreadInfoMutex.WaitOne();
-
-        Console.WriteLine("Thread 12 has acquired account two savings");
-        ThreadInfo+="Thread 12 has acquired account 2 savings\nThread 12 attempting to acquire account 1 savings\n";
-        
         accountOne.DepsoitSavings(1.01f);
+        Console.WriteLine("Thread 12 has acquired account two savings");
         Console.WriteLine("Deposited $1.01 into account two savings\nAccount 2 savings: $"+accountTwo.getSavingsAmount()+"\n");
+        
         //not relenquishing control before requesting another resource to cause deadlock
         for(int i=0; i<2; i++){
             if(!soInUse){
                 soInUse = true;
-                ThreadInfoMutex.WaitOne();
-
-                ThreadInfo+="Thread 12 has acquired account 1 savings";
                 Console.WriteLine("Thread 12 has acquired account one savings");
                 accountTwo.WithdrawSavings(1.01f);
                 Console.WriteLine("Withdrew $1.01 from account 1 savings\nAccount 1 savings: $"+accountOne.getSavingsAmount()+"\n");
+                
                 //relenquish control
                 stInUse = false;
                 soInUse = false;
-                ThreadInfoMutex.ReleaseMutex();
             }
             else{
                 //sleep for ten seconds and check one more time before relenquishing control of first resource
@@ -280,7 +260,6 @@ void threadTwelve(){
         }
         //relenquish control and end thread
         stInUse = false;
-        ThreadInfoMutex.ReleaseMutex();
     }  
 }
 
@@ -320,8 +299,9 @@ t12.Start();
 
 //Sending thread info to other program
 //creating pipe client
+Thread.Sleep(14000);
 using (var client = new NamedPipeClientStream(".", "ThreadPipe", PipeDirection.Out)){
-    Console.WriteLine("Client");
+    Console.WriteLine("Client has sent the Thread information to the server!");
     client.Connect();
     using (var writer = new StreamWriter(client)){
         writer.AutoFlush = true;
