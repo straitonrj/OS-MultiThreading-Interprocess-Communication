@@ -29,5 +29,7 @@ Once your virtual environment has been set up, follow these steps to build and r
 ## Terminal Outputs
 Your terminal outputs will hopefully look like mine. The terminal running OS-ThreadingProject will mention that methods threadSeven() and threadEight() are declared but not used. This is due to the fact that threads 7 and 8 are commented out so they do not run.
 Threads 7 and 8 will cause a deadlock in the program as they are not releasing their used resource before trying to access another. I left the methods in to show how Deadlock can occur and subsequent threads show how to prevent deadlock or recover from it. 
-- ![Threading Image](.images/Threading.png)
-- ![PipeThread Image](.images/PipeThread.png)
+
+
+ ![Threading Image](./images/Threading.png)
+ ![PipeThread Image](./images/PipeThread.png)
