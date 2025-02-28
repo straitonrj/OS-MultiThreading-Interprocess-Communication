@@ -1,0 +1,14 @@
+/home/rj-straiton/Documents/PipeThread/bin/Debug/net8.0/PipeThread
+/home/rj-straiton/Documents/PipeThread/bin/Debug/net8.0/PipeThread.deps.json
+/home/rj-straiton/Documents/PipeThread/bin/Debug/net8.0/PipeThread.runtimeconfig.json
+/home/rj-straiton/Documents/PipeThread/bin/Debug/net8.0/PipeThread.dll
+/home/rj-straiton/Documents/PipeThread/bin/Debug/net8.0/PipeThread.pdb
+/home/rj-straiton/Documents/PipeThread/obj/Debug/net8.0/PipeThread.GeneratedMSBuildEditorConfig.editorconfig
+/home/rj-straiton/Documents/PipeThread/obj/Debug/net8.0/PipeThread.AssemblyInfoInputs.cache
+/home/rj-straiton/Documents/PipeThread/obj/Debug/net8.0/PipeThread.AssemblyInfo.cs
+/home/rj-straiton/Documents/PipeThread/obj/Debug/net8.0/PipeThread.csproj.CoreCompileInputs.cache
+/home/rj-straiton/Documents/PipeThread/obj/Debug/net8.0/PipeThread.dll
+/home/rj-straiton/Documents/PipeThread/obj/Debug/net8.0/refint/PipeThread.dll
+/home/rj-straiton/Documents/PipeThread/obj/Debug/net8.0/PipeThread.pdb
+/home/rj-straiton/Documents/PipeThread/obj/Debug/net8.0/PipeThread.genruntimeconfig.cache
+/home/rj-straiton/Documents/PipeThread/obj/Debug/net8.0/ref/PipeThread.dll
